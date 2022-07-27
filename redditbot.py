@@ -8,12 +8,15 @@ atal=[]
 titlel=[]
 for x in ata:
     atal.append(x)
-wordl=["Tayyip","tayyip","erdoğan","Erdoğan","Teyyip","teyyip","Tahsin","tahsin","RTE","rte","R.T.E","R.T.E.","uzun adam","Uzun adam","Uzun Adam"]
+wordl=["tayyip","erdoğan","teyyip","tahsin","rte","r.t.e","r.t.e.","uzun adam"]
 reddit = praw.Reddit(
     client_id="",
     client_secret="",
     user_agent="",
+    username="",
+    password="",
 )
+
 subl=["Turkey","TurkeyJerkey","ShitpostTC"]
 d=0
 d1=0
@@ -25,9 +28,11 @@ while True:
         titlel=[]
         #Flush the title list at 4 AM İstanbul Time
     sub=reddit.subreddit(subl[d])
-    for post in sub.new(limit=5):
+    print(subl[d])
+    for post in sub.new(limit=25):
         for x in wordl:
-            if x in post.title:
+            print(post.title.lower())
+            if x in post.title.lower():
                 d1=True
                 x=chosen
                 break
@@ -37,36 +42,24 @@ while True:
                 d1=False
                 continue
         if d1:
-            if d1 in titlel.lowercase():
+            if post.title in titlel:
                 pass
                 #Do not reply to same post.(Might do it twice after the flush at 4 AM)
             else:
                 titlel.append(post.title)
-                pic=sample(atal, 1)
-                rep="""Başlıkta *{}* geçtiği için bir Atatürk [fotoğrafı]({}) paylaşmaya geldim.
-
-                &#x200B;
-
-                &#x200B;
-
-                &#x200B;
-
-                &#x200B;
-
-                &#x200B;
-
-                \--------------------------------------------------------------------------------------------------------------
-
-                u/engineergaming |[Source Code](https://github.com/andmydignity) | Lütfen 2'den fazla yorum yaparsa haber verin.""".format(chosen,pic)
+                pic=sample(atal, 1)[0]
+                print(pic)
+                rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için bir Atatürk [fotoğrafı]({}) paylaşmaya geldim                                                                     [Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
+                rep=rep_temp.format(pic)
                 post.reply(rep)
                 print("Replied to a post.("+subl[d]+")")
 
         else:
-            print("Didn't find any")
             pass
-        if d==len(subl)-1:
+    if d==len(subl)-1:
             d=0
-        else:
-            d+=1
-        #Switch to an another sub
-        sleep(wait)
+    else:
+        d+=1
+    #Switch to an another sub
+    sleep(wait)
+
