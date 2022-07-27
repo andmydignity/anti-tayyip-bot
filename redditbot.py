@@ -8,7 +8,7 @@ atal=[]
 titlel=[]
 for x in ata:
     atal.append(x)
-wordl=["tayyip","erdoğan","teyyip","tahsin","rte","r.t.e","r.t.e.","uzun adam"]
+wordl=["tayyip","erdoğan","teyyip","rte","r.t.e","r.t.e.","uzun adam"]
 reddit = praw.Reddit(
     client_id="",
     client_secret="",
