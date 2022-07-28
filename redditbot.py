@@ -42,12 +42,12 @@ while True:
                 d1=False
                 continue
         if d1:
-            print(post.title.lower())
             if post.title in titlel:
                 pass
                 #Do not reply to same post.(Might do it twice after the flush at 4 AM)
             else:
                 titlel.append(post.title)
+                print(post.title.lower())
                 pic=sample(atal, 1)[0]
                 qou=sample(rtel, 1)[0]
                 rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için bir Atatürk [fotoğrafı]({}) paylaşmaya geldim"+"\n\n"+"\n\n"+"^(I am a bot and this action was performed automatically.)"+"\n\n"+"[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"+"\n\n"+"^('{}' -R.T.E)"
