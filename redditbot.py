@@ -3,12 +3,16 @@ from random import sample
 from datetime import datetime
 from time import sleep
 ata=open("atatürk.txt","r")
+rte=open("rte.txt","r")
 wait=15#Interval of requesting a call
-atal=[]
+atal=[]#Atatürk picture links
+rtel=[]#RTE qoutes
 titlel=[]
 for x in ata:
     atal.append(x)
-wordl=["tayyip","erdoğan","teyyip","rte","r.t.e","r.t.e.","uzun adam"]
+for x in rte:
+    rtel.append(x)
+wordl=["tayyip","erdoğan","teyyip","tahsin","rte","r.t.e","r.t.e.","uzun adam"]#Words that should be in title to bot to reply
 reddit = praw.Reddit(
     client_id="",
     client_secret="",
@@ -17,10 +21,9 @@ reddit = praw.Reddit(
     password="",
 )
 
-subl=["Turkey","TurkeyJerkey","ShitpostTC"]
+subl=["Turkey","TurkeyJerkey","ShitpostTC"]#Subs that bot will reply on
 d=0
 d1=0
-chosen=str()
 while True:
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
@@ -34,10 +37,8 @@ while True:
             print(post.title.lower())
             if x in post.title.lower():
                 d1=True
-                x=chosen
                 break
                 #If D1 comes true,post includes one of the holy words.
-                #Also 'chosen' is the one of the holy words
             else:
                 d1=False
                 continue
@@ -48,9 +49,10 @@ while True:
             else:
                 titlel.append(post.title)
                 pic=sample(atal, 1)[0]
+                qou=sample(rtel, 1)[0]
                 print(pic)
-                rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için bir Atatürk [fotoğrafı]({}) paylaşmaya geldim                                                                     [Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
-                rep=rep_temp.format(pic)
+                rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için bir Atatürk [fotoğrafı]({}) paylaşmaya geldim"+"\n\n"+"^(------------------------------------------------------------------------------------------------------------------------------------------------------------------)"+"\n\n"+"[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"+"\n\n"+"^('{}' -R.T.E)"
+                rep=rep_temp.format(pic,qou)
                 post.reply(rep)
                 print("Replied to a post.("+subl[d]+")")
 
@@ -62,4 +64,5 @@ while True:
         d+=1
     #Switch to an another sub
     sleep(wait)
+
 
