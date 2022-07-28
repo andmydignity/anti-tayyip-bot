@@ -32,7 +32,7 @@ while True:
         #Flush the title list at 4 AM İstanbul Time
     sub=reddit.subreddit(subl[d])
     print(subl[d])
-    for post in sub.new(limit=25):
+    for post in sub.new(limit=5):
         for x in wordl:
             if x in post.title.lower():
                 d1=True
