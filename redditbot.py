@@ -5,6 +5,7 @@ from time import sleep
 ata=open("atatürk.txt","r")
 rte=open("rte.txt","r")
 wait=15#Interval of requesting a call
+cooldown=9*60#Cooldown after commenting
 atal=[]#Atatürk picture links
 rtel=[]#RTE qoutes
 titlel=[]
@@ -54,6 +55,8 @@ while True:
                 rep=rep_temp.format(pic,qou)
                 post.reply(rep)
                 print("Replied to a post.("+subl[d]+")")
+                print("Going on {} seconds of cooldown".format(cooldown))
+                sleep(cooldown)
 
         else:
             pass
