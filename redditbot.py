@@ -21,7 +21,7 @@ reddit = praw.Reddit(
     password="",
 )
 
-subl=["Turkey","TurkeyJerkey","ShitpostTC"]#Subs that bot will reply on
+subl=["Turkey","TurkeyJerky","ShitpostTC"]#Subs that bot will reply on
 d=0
 d1=0
 while True:
