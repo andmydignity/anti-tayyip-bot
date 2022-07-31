@@ -1,5 +1,6 @@
 import praw
 from random import sample
+from time import sleep
 ata=open("atatürk.txt","r")
 rte=open("rte.txt","r")
 wait=15#Interval of requesting a call
