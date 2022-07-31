@@ -23,8 +23,6 @@ reddit = praw.Reddit(
 subl=["Turkey","TurkeyJerky","ShitpostTC"]#Subs that bot will reply on
 d=0
 while True:
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
     sub=reddit.subreddit(subl[d])
     print("Searching in:"+subl[d])
     for post in sub.new(limit=10):
