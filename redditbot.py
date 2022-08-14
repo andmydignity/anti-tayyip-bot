@@ -52,3 +52,4 @@ while True:
         sleep(wait)
     except:
         continue
+        sleep(wait)
