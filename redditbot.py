@@ -12,7 +12,7 @@ reddit = praw.Reddit(
 client_id="",
 client_secret="",
 user_agent="<console:LOL:1.0>",
-username="",
+username="anti-rte-bot",
 password="",
 ratelimit_seconds=1200,
 )
@@ -33,14 +33,15 @@ while True:
                     t1=k[i-1]
                     u2=len(x)
                     t2=k[i+u2]
-                    if t1 and t2 == " ":
-                        postid.append(post.id)
-                        pic=sample(atal, 1)[0]
-                        rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için gerçek bir liderin [fotoğrafını]({}) paylaşmaya geldim"+"\n\n"+"\n\n"+"^(I am a bot and this action was performed automatically.)"+"\n\n"+"[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
-                        rep=rep_temp.format(pic)
-                        post.reply(rep)
-                        print("Replied to a post.({}|{})".format(subl[d],post.title))
-                        break
+                    if t1 == " " or ":" or "'" :
+                        if t2 == " " or ":" or "'" :
+                            postid.append(post.id)
+                            pic=sample(atal, 1)[0]
+                            rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için gerçek bir liderin [fotoğrafını]({}) paylaşmaya geldim"+"\n\n"+"\n\n"+"^(I am a bot and this action was performed automatically.)"+"\n\n"+"[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
+                            rep=rep_temp.format(pic)
+                            post.reply(rep)
+                            print("Replied to a post.({}|{})".format(subl[d],post.title))
+                            break
 
         if d==len(subl)-1:
                 d=0
