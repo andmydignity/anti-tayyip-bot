@@ -46,6 +46,11 @@ while True:  # this loop is for switching between subs
                 lowercase_title = post.title.lower()  # split the title into words
                 title_words = lowercase_title.split()
 
+                # also add two word combinations because we might have 2 word reply specifiers
+                title_words = title_words + \
+                    [' '.join(pair)
+                     for pair in zip(title_words, title_words[1:])]
+
                 # if there is an overlap between title_words and word
                 if set(title_words).intersection(word):
                     print("Found match in post: " + post.title)
