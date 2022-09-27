@@ -2,7 +2,6 @@ import praw
 from random import sample
 from time import sleep
 ata=open("atatürk.txt","r")
-wait=15#Interval of requesting a call
 atal=[]#Atatürk picture links
 postid=[]
 for x in ata:
@@ -51,7 +50,5 @@ while True:
             for l in range(4):
                 postid.pop(x)
         #Switch to an another sub
-        sleep(wait)
     except:
         continue
-        sleep(wait)
