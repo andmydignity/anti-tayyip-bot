@@ -4,7 +4,7 @@ A Reddit bot that searches about RTE in post titles and replies with an Atatürk
 
 ## Setup
 
-Put these values in your .env file
+Put these values in your .env file:
     
     
     CLIENT_ID=your_client_id
@@ -14,7 +14,7 @@ Put these values in your .env file
     USER_AGENT=your_user_agent
     
 
-Be sure to install the requirements
+Be sure to install the requirements beforehand:
 
     
     pip install -r requirements.txt
