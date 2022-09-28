@@ -1,54 +1,70 @@
 import praw
 from random import sample
 from time import sleep
-ata=open("atatürk.txt","r")
-atal=[]#Atatürk picture links
-postid=[]
-for x in ata:
-    atal.append(x)
-wordl=["tayyip","erdoğan","teyyip","tahsin","rte","r.t.e","r.t.e.","uzun adam"]#Words that should be in title to bot to reply
+import json
+
+from dotenv import dotenv_values
+
+env_config = dotenv_values(".env")
+
+bot_config = None
+with open('bot-config.json') as f:
+    bot_config = json.load(f)
+
+title_words = bot_config["active_subs"]
+active_subs = bot_config["title_words"]
+
 reddit = praw.Reddit(
-client_id="",
-client_secret="",
-user_agent="<console:LOL:1.0>",
-username="anti-rte-bot",
-password="",
-ratelimit_seconds=1200,
+    client_id=env_config["CLIENT_ID"],
+    client_secret=env_config["CLIENT_SECRET"],
+    user_agent=env_config["USER_AGENT"],
+    username=env_config["USERNAME"],
+    password=env_config["PASSWORD"],
+    ratelimit_seconds=1200,
 )
 
-subl=["Turkey","TurkeyJerky","ShitpostTC"]#Subs that bot will reply on
-d=0
-while True:
-    try:
-        sub=reddit.subreddit(subl[d])
-        print("Searching in:"+subl[d])
-        for post in sub.new(limit=10):
-            if post.id in postid:
-                continue
-            for x in wordl:
-                k=post.title.lower()
-                i=k.find(x)
-                if i != -1:
-                    t1=k[i-1]
-                    u2=len(x)
-                    t2=k[i+u2]
-                    if t1 == " " or ":" or "'" :
-                        if t2 == " " or ":" or "'" :
-                            postid.append(post.id)
-                            pic=sample(atal, 1)[0]
-                            rep_temp="Başlıkta RTE ile ilgili şeyler geçtiği için gerçek bir liderin [fotoğrafını]({}) paylaşmaya geldim"+"\n\n"+"\n\n"+"^(I am a bot and this action was performed automatically.)"+"\n\n"+"[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
-                            rep=rep_temp.format(pic)
-                            post.reply(rep)
-                            print("Replied to a post.({}|{})".format(subl[d],post.title))
-                            break
 
-        if d==len(subl)-1:
-                d=0
+def comment_generator():
+    post_text = "Başlıkta RTE ile ilgili şeyler geçtiği için gerçek bir liderin [fotoğrafını]({}) paylaşmaya geldim" + \
+        "\n\n"+"\n\n" + \
+        "^(I am a bot and this action was performed automatically.)"+"\n\n" + \
+        "[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
+    return post_text.format(sample(bot_config["pics"], 1)[0])
+
+
+post_ids = []
+sub_iterator = 0
+while True:  # this loop is for switching between subs
+    try:
+        sub = reddit.subreddit(active_subs[sub_iterator])
+        print("Searching in:" + active_subs[sub_iterator])
+        for post in sub.new(limit=10):
+            if post.id in post_ids:
+                continue
+            for word in title_words:
+
+                lowercase_title = post.title.lower()  # split the title into words
+                title_words = lowercase_title.split()
+
+                # also add two word combinations because we might have 2 word reply specifiers
+                title_words = title_words + \
+                    [' '.join(pair)
+                     for pair in zip(title_words, title_words[1:])]
+
+                # if there is an overlap between title_words and word
+                if set(title_words).intersection(word):
+                    print("Found match in post: " + post.title)
+                    post.reply(comment_generator())
+                    post_ids.append(post.id)
+                    print("Replied to post: " + post.title)
+                    break
+
+        if sub_iterator == len(active_subs) - 1:
+            sub_iterator = 0  # reset the sub iterator
         else:
-            d+=1
-        if len(postid)>30:
-            for l in range(4):
-                postid.pop(x)
-        #Switch to an another sub
+            sub_iterator += 1
+
+        if len(post_ids) > 30:
+            del post_ids[0:4]
     except:
         continue
