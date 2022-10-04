@@ -28,8 +28,10 @@ def comment_generator():
     post_text = "Başlıkta RTE ile ilgili şeyler geçtiği için gerçek bir liderin [fotoğrafını]({}) paylaşmaya geldim" + \
         "\n\n"+"\n\n" + \
         "^(I am a bot and this action was performed automatically.)"+"\n\n" + \
-        "[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"
-    return post_text.format(sample(bot_config["pics"], 1)[0])
+        "^({})"+"\n\n" + \
+        "[Kaynak Kodu|Source Code](https://github.com/andmydignity/anti-tayyip-bot)"+"\n\n"+ \
+        "[Bağış|Donate](https://www.buymeacoffee.com/semihaslan)"
+    return post_text.format(sample(bot_config["pics"], 1)[0],sample(bot_config["rte"], 1)[0])
 
 
 post_ids = []
