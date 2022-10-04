@@ -11,8 +11,8 @@ bot_config = None
 with open('bot-config.json') as f:
     bot_config = json.load(f)
 
-title_words = bot_config["active_subs"]
-active_subs = bot_config["title_words"]
+title_words = bot_config["title_words"]
+active_subs = bot_config["active_subs"]
 
 reddit = praw.Reddit(
     client_id=env_config["CLIENT_ID"],
